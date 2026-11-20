@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="hi-IN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Bachat — Roz Ki Bachat, Deals & Tips</title>
+  <style>
+    :root {
+      --bg: #f4f7f5;
+      --surface: #ffffff;
+      --surface-alt: #eef4f0;
+      --text: #15221b;
+      --muted: #53665c;
+      --primary: #0f766e;
+      --primary-dark: #115e59;
+      --primary-light: #e6f4f1;
+      --accent: #d97706;
+      --accent-light: #fef3c7;
+      --border: #dce6e0;
+      --danger: #b91c1c;
+      --shadow: 0 6px 20px rgba(21, 34, 27, 0.06);
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding-bottom: 48px;
+    }
+
+    .app-header {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      color: #ffffff;
+      padding: 18px 16px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      box-shadow: 0 4px 14px rgba(15, 118, 110, 0.22);
+    }
+
+    .header-inner {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .brand-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    .brand-sub {
+      font-size: 0.82rem;
+      color: #d9f3ee;
+      margin-top: 2px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      padding: 7px 11px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-ghost.active {
+      background: #ffffff;
+      color: var(--primary-dark);
+    }
+
+    .badge-count {
+      background: var(--accent);
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 999px;
+    }
+
+    .search-box {
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: 12px;
+      border: none;
+      font-size: 0.95rem;
+      background: #ffffff;
+      color: var(--text);
+      outline: none;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 14px 16px 0;
+    }
+
+    .tabs-bar {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      margin-bottom: 14px;
+      scrollbar-width: none;
+    }
+
+    .tabs-bar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-btn {
+      background: var(--surface);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.86rem;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      gap: 8px;
+    }
+
+    .section-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .section-meta {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .deals-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .deal-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 15px;
+      box-shadow: var(--shadow);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .cat-pill {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      margin-bottom: 6px;
+    }
+
+    .user-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--accent-light);
+      color: #92400e;
+      margin-left: 6px;
+    }
+
+    .deal-title {
+      font-size: 1.04rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .savings-box {
+      background: var(--accent-light);
+      color: #92400e;
+      font-weight: 700;
+      font-size: 0.84rem;
+      padding: 5px 10px;
+      border-radius: 10px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .deal-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .code-strip {
+      background: var(--surface-alt);
+      border: 1px dashed #9ec5b6;
+      border-radius: 10px;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 12px;
+      font-size: 0.86rem;
+    }
+
+    .code-label {
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .code-value {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-weight: 700;
+      color: var(--primary-dark);
+      font-size: 0.9rem;
+    }
+
+    .card-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    .btn-saved {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      border-color: var(--primary);
+    }
+
+    .empty-state {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 18px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .form-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-top: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 11px;
+      margin-top: 10px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 0.83rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      padding: 9px 11px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      background: #ffffff;
+      color: var(--text);
+    }
+
+    .field textarea {
+      min-height: 72px;
+      resize: vertical;
+    }
+
+    .disclaimer-box {
+      margin-top: 20px;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 13px 15px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .disclaimer-box strong {
+      color: var(--text);
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 50;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-panel {
+      background: var(--surface);
+      border-radius: var(--radius);
+      max-width: 640px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 18px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      gap: 10px;
+    }
+
+    .modal-head h2 {
+      font-size: 1.08rem;
+    }
+
+    .modal-panel pre {
+      background: #132019;
+      color: #e6f4f1;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 0.78rem;
+      overflow-x: auto;
+      margin: 8px 0 14px;
+    }
+
+    .modal-panel ol {
+      padding-left: 18px;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .modal-panel li {
+      margin-bottom: 7px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #15221b;
+      color: #ffffff;
+      padding: 9px 16px;
+      border-radius: 999px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.2s ease;
+      z-index: 60;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand-row">
+        <div>
+          <div class="brand-title">Smart Bachat</div>
+          <div class="brand-sub">Roz ke deals, local offers &amp; money tips</div>
+        </div>
+        <div class="header-actions">
+          <button type="button" id="savedToggleBtn" class="btn-ghost" aria-pressed="false">
+            Saved <span id="savedCountBadge" class="badge-count">0</span>
+          </button>
+          <button type="button" id="guideOpenBtn" class="btn-ghost">
+            Android Guide
+          </button>
+        </div>
+      </div>
+      <div class="search-box">
+        <input
+          type="search"
+          id="searchInput"
+          class="search-input"
+          placeholder="Deals, coupon code ya bachat tip khojein..."
+          aria-label="Deals aur tips khojein"
+        />
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <nav class="tabs-bar" aria-label="Categories">
+      <button type="button" class="tab-btn active" data-category="All">All</button>
+      <button type="button" class="tab-btn" data-category="Shopping Deals">Shopping Deals</button>
+      <button type="button" class="tab-btn" data-category="Local & Food">Local &amp; Food</button>
+      <button type="button" class="tab-btn" data-category="Money Tips">Money Tips</button>
+    </nav>
+
+    <div class="section-head">
+      <h1 id="listHeading" class="section-title">Aaj Ki Top Bachat</h1>
+      <span id="resultsMeta" class="section-meta"></span>
+    </div>
+
+    <div id="dealsContainer" class="deals-list"></div>
+
+    <section class="form-card" aria-labelledby="suggestHeading">
+      <h2 id="suggestHeading" class="section-title">Suggest Bachat</h2>
+      <p class="section-meta">Koi achha offer, code ya bachat tip mila? Yahan jodein (aapke browser mein save hoga).</p>
+      <form id="suggestForm" class="form-grid">
+        <div class="field">
+          <label for="dealTitle">Title *</label>
+          <input type="text" id="dealTitle" required placeholder="Jaise: Grocery par ₹150 off ya UPI cashback" />
+        </div>
+        <div class="field">
+          <label for="dealCategory">Category *</label>
+          <select id="dealCategory" required>
+            <option value="Shopping Deals">Shopping Deals</option>
+            <option value="Local & Food">Local &amp; Food</option>
+            <option value="Money Tips">Money Tips</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="dealSavings">Bachat / Value (₹)</label>
+          <input type="text" id="dealSavings" placeholder="Jaise: ₹150 tak bachat" />
+        </div>
+        <div class="field">
+          <label for="dealCode">Coupon Code ya Tip</label>
+          <input type="text" id="dealCode" placeholder="Jaise: BACHAT150 ya Auto-pay on karein" />
+        </div>
+        <div class="field">
+          <label for="dealUrl">Offer Link (optional)</label>
+          <input type="url" id="dealUrl" placeholder="https://example.com/offer" />
+        </div>
+        <div class="field">
+          <label for="dealDesc">Details *</label>
+          <textarea id="dealDesc" required placeholder="Offer ki shartein ya bachat ka tarika likhein..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Bachat Jodein</button>
+      </form>
+    </section>
+
+    <aside class="disclaimer-box">
+      <strong>Privacy &amp; Offer Note:</strong> Yeh ek prototype interface hai. Saved deals aur suggested entries aapke device ke <code>localStorage</code> mein store hoti hain. Kisi bhi external offer ya coupon ka istemal karne se pehle merchant ki terms, expiry aur affiliate/commission rules zaroor check karein.
+    </aside>
+  </main>
+
+  <div id="guideModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="guideModalTitle">
+    <div class="modal-panel">
+      <div class="modal-head">
+        <h2 id="guideModalTitle">Android / Capacitor Guide</h2>
+        <button type="button" id="guideCloseBtn" class="btn">Band Karein</button>
+      </div>
+      <p class="deal-desc">Is HTML file ko <code>www/index.html</code> ke roop mein rakh kar Capacitor ke saath Android project banaya ja sakta hai:</p>
+
+      <strong>1. capacitor.config.json</strong>
+      <pre>{
+  "appId": "com.smartbachat.app",
+  "appName": "Smart Bachat",
+  "webDir": "www"
+}</pre>
+
+      <strong>2. package.json scripts</strong>
+      <pre>{
+  "scripts": {
+    "cap:add:android": "npx cap add android",
+    "cap:sync": "npx cap sync android",
+    "cap:open": "npx cap open android"
+  }
+}</pre>
+
+      <strong>3. Android Studio se .aab Build Karne Ke Steps</strong>
+      <ol>
+        <li><code>www/index.html</code> taiyar karein aur <code>npm run cap:add:android</code> chalayein.</li>
+        <li><code>npm run cap:open</code> se project Android Studio mein kholein aur Gradle sync poora hone dein.</li>
+        <li>Top menu mein <strong>Build &rarr; Generate Signed Bundle / APK</strong> chunein aur <strong>Android App Bundle (.aab)</strong> select karein.</li>
+        <li>Apni keystore file create/select karein (keystore ko surakshit rakhein) aur <strong>release</strong> build generate karein.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const INITIAL_DEALS = [
+      {
+        id: "seed-1",
+        title: "Mahine Ki Kirana Shopping Par ₹250 Tak Bachat",
+        category: "Shopping Deals",
+        savings: "₹250 tak bachat",
+        codeOrTip: "KIRANA250",
+        url: "https://example.com/grocery-deal",
+        desc: "₹1,499 ya usse zyada ke grocery order par applicable. Combos aur loose grains ke saath unit price zaroor compare karein.",
+        isUserAdded: false
+      },
+      {
+        id: "seed-2",
+        title: "Lunch Time Combo — ₹129 Mein Meal",
+        category: "Local & Food",
+        savings: "₹90 bachat",
+        codeOrTip: "LUNCH129",
+        url: "https://example.com/lunch-combo",
+        desc: "Dopahar 12 se 3 baje ke beech dine-in ya pickup orders par valid. Delivery fees jodne ke baad final bill check karein.",
+        isUserAdded: false
+      },
+      {
+        id: "seed-3",
+        title: "24-Hour Cooling-Off Rule Se Impulse Kharch Rokein",
+        category: "Money Tips",
+        savings: "₹500+ mahina",
+        codeOrTip: "24 ghante ruk kar hi non-essential cheez kharidein",
+        url: "",
+        desc: "Kisi bhi sale ya flash deal mein turant buy karne ke bajay 1 din wait karein; zaroorat na ho toh cart clear kar dein.",
+        isUserAdded: false
+      },
+      {
+        id: "seed-4",
+        title: "Winter & Festive Apparel Par Extra ₹400 Off",
+        category: "Shopping Deals",
+        savings: "₹400 off",
+        codeOrTip: "BACHAT400",
+        url: "https://example.com/fashion-offer",
+        desc: "₹2,200 ke minimum cart value par select styles par lagu. Return aur exchange window order karne se pehle dekh lein.",
+        isUserAdded: false
+      },
+      {
+        id: "seed-5",
+        title: "Chai & Snacks Pass — 10 Visits Ke Liye Special Price",
+        category: "Local & Food",
+        savings: "₹150 bachat",
+        codeOrTip: "CHAI10",
+        url: "https://example.com/chai-pass",
+        desc: "Roz office ya college ke aas-paas snacks lene walon ke liye kaam ka pass; validity days aur outlet list check karein.",
+        isUserAdded: false
+      },
+      {
+        id: "seed-6",
+        title: "Duplicate Subscriptions Ka Monthly Audit Karein",
+        category: "Money Tips",
+        savings: "₹300+ mahina",
+        codeOrTip: "Har mahine ki 1 tareekh ko recurring bills check karein",
+        url: "",
+        desc: "Jo apps ya plans pichle 30 din mein use nahi hue, unhe cancel karein taaki chhota-chhota kharch jama na ho.",
+        isUserAdded: false
+      }
+    ];
+
+    const STORAGE_KEYS = {
+      customDeals: "smart_bachat_custom_deals_v1",
+      savedIds: "smart_bachat_saved_ids_v1"
+    };
+
+    function loadJson(key, fallback) {
+      try {
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : fallback;
+      } catch (_) {
+        return fallback;
+      }
+    }
+
+    function saveJson(key, value) {
+      try {
+        localStorage.setItem(key, JSON.stringify(value));
+      } catch (_) {
+        // Ignore storage quota/private mode errors
+      }
+    }
+
+    let customDeals = loadJson(STORAGE_KEYS.customDeals, []);
+    let savedIds = loadJson(STORAGE_KEYS.savedIds, []);
+    let activeCategory = "All";
+    let searchQuery = "";
+    let showSavedOnly = false;
+
+    const dealsContainer = document.getElementById("dealsContainer");
+    const listHeading = document.getElementById("listHeading");
+    const resultsMeta = document.getElementById("resultsMeta");
+    const searchInput = document.getElementById("searchInput");
+    const savedToggleBtn = document.getElementById("savedToggleBtn");
+    const savedCountBadge = document.getElementById("savedCountBadge");
+    const suggestForm = document.getElementById("suggestForm");
+    const guideModal = document.getElementById("guideModal");
+    const guideOpenBtn = document.getElementById("guideOpenBtn");
+    const guideCloseBtn = document.getElementById("guideCloseBtn");
+    const toastEl = document.getElementById("toast");
+
+    let toastTimer = null;
+    function showToast(message) {
+      toastEl.textContent = message;
+      toastEl.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toastEl.classList.remove("show");
+      }, 2200);
+    }
+
+    function escapeHtml(str) {
+      return String(str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function isSafeHttpUrl(url) {
+      if (!url) return false;
+      try {
+        const parsed = new URL(url);
+        return parsed.protocol === "https:" || parsed.protocol === "http:";
+      } catch (_) {
+        return false;
+      }
+    }
+
+    function getAllDeals() {
+      return [...customDeals, ...INITIAL_DEALS];
+    }
+
+    function updateSavedBadge() {
+      const validIds = new Set(getAllDeals().map((d) => d.id));
+      savedIds = savedIds.filter((id) => validIds.has(id));
+      saveJson(STORAGE_KEYS.savedIds, savedIds);
+      savedCountBadge.textContent = String(savedIds.length);
+    }
+
+    function getFilteredDeals() {
+      const q = searchQuery.trim().toLowerCase();
+      return getAllDeals().filter((deal) => {
+        if (showSavedOnly && !savedIds.includes(deal.id)) return false;
+        if (activeCategory !== "All" && deal.category !== activ
